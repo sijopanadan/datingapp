@@ -1,3 +1,4 @@
+import { AccountService } from './../_services/account.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
-  constructor() { }
+  model :any = {}
+  //loggedin :  boolean;
+  constructor(public accountservice : AccountService) { }
 
   ngOnInit(): void {
+    //this.getCurrentUser();
+  }
+
+  Login(){
+    this.accountservice.login(this.model).subscribe(response => {
+      //this.loggedin = true;
+      console.log(response);
+    },error => {
+      console.log(error);
+    });
+  }
+
+  logout(){
+    this.accountservice.logout();
+    //this.loggedin = false;
+  }
+
+  getCurrentUser(){
+    this.accountservice.currentuser$.subscribe(user => {
+      //this.loggedin = !!user;
+    },
+    error => {
+      console.log(error);
+    })
   }
 
 }
